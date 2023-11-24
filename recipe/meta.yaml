@@ -1,6 +1,6 @@
 {% set name = "pytest-lazy-fixture" %}
 {% set version = "0.6.3" %}
-{% set hash = "0e7d0c7f74ba33e6e80905e9bfd81f9d15ef9a790de97993e34213deb5ad10ac" %}
+
 package:
   name: {{ name }}
   version: {{ version }}
@@ -8,38 +8,44 @@ package:
 source:
   fn: {{ name }}-{{ version }}.tar.gz
   url: https://pypi.io/packages/source/{{ name[0]}}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: {{ hash }}
+  sha256: 0e7d0c7f74ba33e6e80905e9bfd81f9d15ef9a790de97993e34213deb5ad10ac
 
 build:
-  noarch: python
   number: 0
-  script: "{{ PYTHON }} -m pip install . -vv"
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
 
 requirements:
-  build:
+  host:
     - pip
     - python
     - setuptools
-
+    - wheel
   run:
     - python
     - pytest >=3.2.5
 
 test:
+  files:
+    - test.py
   imports:
     - pytest_lazyfixture
   requires:
+    - pip
     - pytest
   commands:
-    - pytest {{ RECIPE_DIR }}/test.py
+    - pip check
+    - pytest -v test.py
 
 about:
   home: https://github.com/TvoroG/pytest-lazy-fixture
   license: MIT
   license_family: MIT
   license_file: LICENSE
-  summary: 'It helps to use fixtures in pytest.mark.parametrize'
+  summary: It helps to use fixtures in pytest.mark.parametrize
+  description: |
+    Use your fixtures in @pytest.mark.parametrize.
   dev_url: https://github.com/TvoroG/pytest-lazy-fixture
+  doc_url: https://github.com/TvoroG/pytest-lazy-fixture/tree/v{{ version }}#usage
 
 extra:
   recipe-maintainers:
