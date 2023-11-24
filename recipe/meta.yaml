@@ -25,6 +25,8 @@ requirements:
     - pytest >=3.2.5
 
 test:
+  files:
+    - test.py
   imports:
     - pytest_lazyfixture
   requires:
@@ -32,7 +34,7 @@ test:
     - pytest
   commands:
     - pip check
-    - pytest {{ RECIPE_DIR }}/test.py
+    - pytest -v test.py
 
 about:
   home: https://github.com/TvoroG/pytest-lazy-fixture
